@@ -111,7 +111,7 @@
             border-radius: 15px;
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            max-height: 400px;
+            /* max-height: 400px; */
         }
         
         .media-content {
@@ -157,9 +157,6 @@
 </head>
 <body>
     <div class="status-container">
-        <div class="user-avatar">
-            {{ user_name[0] }}{{ user_name.split(' ')[1][0] if user_name and ' ' in user_name else user_name[0] }}
-        </div>
         
         <h1 class="user-name">{{ user_name }}</h1>
         

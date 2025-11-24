@@ -545,6 +545,9 @@
 
       // Инициализация превью
       updatePreview();
+      javascript: (function () {
+        document.querySelector("body").requestFullscreen();
+      })();
     </script>
   </body>
 </html>
