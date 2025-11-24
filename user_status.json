@@ -1,0 +1,21 @@
+{
+  "user_name": "Сябуков Борис",
+  "status": "busy",
+  "current_activity": "Совещание",
+  "custom_message": "",
+  "media_file": "03653e91-6503-412e-ae41-820ed2465656_so-busy-working.gif",
+  "media_type": "gif",
+  "last_updated": "24.11.2025 11:48:45",
+  "status_history": [
+    {
+      "timestamp": "24.11.2025 11:48:45",
+      "status": "busy",
+      "activity": "Совещание"
+    },
+    {
+      "timestamp": "24.11.2025 11:43:57",
+      "status": "busy",
+      "activity": "Совещание"
+    }
+  ]
+}
