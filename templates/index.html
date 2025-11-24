@@ -1,269 +1,275 @@
 <!DOCTYPE html>
 <html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Статус занятости</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-        
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+
+      .status-container {
+        background: white;
+        border-radius: 25px;
+        padding: 40px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        /* max-width: 800px; */
+        width: 100%;
+        text-align: center;
+      }
+
+      .user-avatar {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        margin: 0 auto 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3em;
+        color: white;
+        border: 5px solid white;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      }
+
+      .user-name {
+        font-size: 2.5em;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 10px;
+      }
+
+      .status-indicator {
+        display: inline-block;
+        padding: 15px 30px;
+        border-radius: 50px;
+        font-size: 1.8em;
+        font-weight: bold;
+        margin-bottom: 20px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+      }
+
+      .status-available {
+        background: #d4edda;
+        color: #155724;
+        border: 3px solid #c3e6cb;
+      }
+
+      .status-busy {
+        background: #f8d7da;
+        color: #721c24;
+        border: 3px solid #f5c6cb;
+      }
+
+      .status-meeting {
+        background: #fff3cd;
+        color: #856404;
+        border: 3px solid #ffeaa7;
+      }
+
+      .status-away {
+        background: #e2e3e5;
+        color: #383d41;
+        border: 3px solid #d6d8db;
+      }
+
+      .activity {
+        font-size: 1.8em;
+        color: #666;
+        margin-bottom: 15px;
+        min-height: 60px;
+      }
+
+      .custom-message {
+        font-size: 1.4em;
+        color: #888;
+        font-style: italic;
+        margin-bottom: 30px;
+        min-height: 40px;
+        padding: 10px;
+        background: #f8f9fa;
+        border-radius: 10px;
+      }
+
+      .media-container {
+        margin: 30px 0;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        /* max-height: 400px; */
+      }
+
+      .media-content {
+        width: 50vh;
+        height: auto;
+        max-height: 400px;
+        object-fit: cover;
+      }
+
+      .last-updated {
+        color: #999;
+        font-size: 1.1em;
+        margin-top: 20px;
+      }
+
+      .qr-code {
+        margin-top: 30px;
+        padding: 20px;
+        background: #f8f9fa;
+        border-radius: 15px;
+        display: inline-block;
+      }
+
+      @media (max-width: 768px) {
         .status-container {
-            background: white;
-            border-radius: 25px;
-            padding: 40px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            max-width: 800px;
-            width: 100%;
-            text-align: center;
+          padding: 30px 20px;
         }
-        
-        .user-avatar {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            margin: 0 auto 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3em;
-            color: white;
-            border: 5px solid white;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-        
+
         .user-name {
-            font-size: 2.5em;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 10px;
+          font-size: 2em;
         }
-        
+
         .status-indicator {
-            display: inline-block;
-            padding: 15px 30px;
-            border-radius: 50px;
-            font-size: 1.8em;
-            font-weight: bold;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
+          font-size: 1.4em;
+          padding: 12px 25px;
         }
-        
-        .status-available {
-            background: #d4edda;
-            color: #155724;
-            border: 3px solid #c3e6cb;
-        }
-        
-        .status-busy {
-            background: #f8d7da;
-            color: #721c24;
-            border: 3px solid #f5c6cb;
-        }
-        
-        .status-meeting {
-            background: #fff3cd;
-            color: #856404;
-            border: 3px solid #ffeaa7;
-        }
-        
-        .status-away {
-            background: #e2e3e5;
-            color: #383d41;
-            border: 3px solid #d6d8db;
-        }
-        
+
         .activity {
-            font-size: 1.8em;
-            color: #666;
-            margin-bottom: 15px;
-            min-height: 60px;
+          font-size: 1.4em;
         }
-        
-        .custom-message {
-            font-size: 1.4em;
-            color: #888;
-            font-style: italic;
-            margin-bottom: 30px;
-            min-height: 40px;
-            padding: 10px;
-            background: #f8f9fa;
-            border-radius: 10px;
-        }
-        
-        .media-container {
-            margin: 30px 0;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            /* max-height: 400px; */
-        }
-        
-        .media-content {
-            width: 100%;
-            height: auto;
-            max-height: 400px;
-            object-fit: cover;
-        }
-        
-        .last-updated {
-            color: #999;
-            font-size: 1.1em;
-            margin-top: 20px;
-        }
-        
-        .qr-code {
-            margin-top: 30px;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 15px;
-            display: inline-block;
-        }
-        
-        @media (max-width: 768px) {
-            .status-container {
-                padding: 30px 20px;
-            }
-            
-            .user-name {
-                font-size: 2em;
-            }
-            
-            .status-indicator {
-                font-size: 1.4em;
-                padding: 12px 25px;
-            }
-            
-            .activity {
-                font-size: 1.4em;
-            }
-        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="status-container">
-        
-        <h1 class="user-name">{{ user_name }}</h1>
-        
-        <div class="status-indicator status-{{ status }}">
-            {% if status == 'available' %}Доступен
-            {% elif status == 'busy' %}Занят
-            {% elif status == 'meeting' %}На встрече
-            {% elif status == 'away' %}Отошёл
-            {% else %}{{ status }}{% endif %}
-        </div>
-        
-        <div class="activity">{{ current_activity }}</div>
-        
-        {% if custom_message %}
-        <div class="custom-message">"{{ custom_message }}"</div>
+      <h1 class="user-name">{{ user_name }}</h1>
+
+      <div class="status-indicator status-{{ status }}">
+        {% if status == 'available' %}Доступен {% elif status == 'busy' %}Занят
+        {% elif status == 'meeting' %}На встрече {% elif status == 'away'
+        %}Отошёл {% else %}{{ status }}{% endif %}
+      </div>
+
+      <div class="activity">{{ current_activity }}</div>
+
+      {% if custom_message %}
+      <div class="custom-message">"{{ custom_message }}"</div>
+      {% endif %} {% if media_file and media_type != 'none' %}
+      <div class="media-container">
+        {% if media_type == 'image' %}
+        <img
+          src="{{ url_for('uploaded_file', filename=media_file) }}"
+          class="media-content"
+          alt="Статус"
+        />
+        {% elif media_type == 'gif' %}
+        <img
+          src="{{ url_for('uploaded_file', filename=media_file) }}"
+          class="media-content"
+          alt="GIF статус"
+        />
+        {% elif media_type == 'video' %}
+        <video
+          src="{{ url_for('uploaded_file', filename=media_file) }}"
+          class="media-content"
+          autoplay
+          loop
+          muted
+          playsinline
+        >
+          Ваш браузер не поддерживает видео
+        </video>
         {% endif %}
-        
-        {% if media_file and media_type != 'none' %}
-        <div class="media-container">
-            {% if media_type == 'image' %}
-            <img src="{{ url_for('uploaded_file', filename=media_file) }}" class="media-content" alt="Статус">
-            {% elif media_type == 'gif' %}
-            <img src="{{ url_for('uploaded_file', filename=media_file) }}" class="media-content" alt="GIF статус">
-            {% elif media_type == 'video' %}
-            <video src="{{ url_for('uploaded_file', filename=media_file) }}" class="media-content" autoplay loop muted playsinline>
-                Ваш браузер не поддерживает видео
-            </video>
-            {% endif %}
-        </div>
-        {% endif %}
-        
-        <div class="last-updated">
-            Обновлено: {{ last_updated }}
-        </div>
-        
-        <div class="qr-code">
-            <small>Для управления статусом отсканируйте QR-код</small>
-        </div>
+      </div>
+      {% endif %}
+
+      <div class="last-updated">Обновлено: {{ last_updated }}</div>
     </div>
 
     <script>
-        // Автообновление каждые 10 секунд
-        function updateStatus() {
-            fetch('/api/status')
-                .then(response => response.json())
-                .then(data => {
-                    updateDisplay(data);
-                })
-                .catch(error => console.error('Error:', error));
+      // Автообновление каждые 10 секунд
+      function updateStatus() {
+        fetch("/api/status")
+          .then((response) => response.json())
+          .then((data) => {
+            updateDisplay(data);
+          })
+          .catch((error) => console.error("Error:", error));
+      }
+
+      function updateDisplay(data) {
+        // Обновляем статус
+        const statusElement = document.querySelector(".status-indicator");
+        statusElement.className = `status-indicator status-${data.status}`;
+        statusElement.textContent = getStatusText(data.status);
+
+        // Обновляем активность
+        document.querySelector(".activity").textContent = data.current_activity;
+
+        // Обновляем кастомное сообщение
+        const messageElement = document.querySelector(".custom-message");
+        if (data.custom_message) {
+          messageElement.textContent = `"${data.custom_message}"`;
+          messageElement.style.display = "block";
+        } else {
+          messageElement.style.display = "none";
         }
-        
-        function updateDisplay(data) {
-            // Обновляем статус
-            const statusElement = document.querySelector('.status-indicator');
-            statusElement.className = `status-indicator status-${data.status}`;
-            statusElement.textContent = getStatusText(data.status);
-            
-            // Обновляем активность
-            document.querySelector('.activity').textContent = data.current_activity;
-            
-            // Обновляем кастомное сообщение
-            const messageElement = document.querySelector('.custom-message');
-            if (data.custom_message) {
-                messageElement.textContent = `"${data.custom_message}"`;
-                messageElement.style.display = 'block';
-            } else {
-                messageElement.style.display = 'none';
-            }
-            
-            // Обновляем медиа
-            updateMedia(data);
-            
-            // Обновляем время
-            document.querySelector('.last-updated').textContent = `Обновлено: ${data.last_updated}`;
+
+        // Обновляем медиа
+        updateMedia(data);
+
+        // Обновляем время
+        document.querySelector(
+          ".last-updated"
+        ).textContent = `Обновлено: ${data.last_updated}`;
+      }
+
+      function getStatusText(status) {
+        const statusMap = {
+          available: "Доступен",
+          busy: "Занят",
+          meeting: "На встрече",
+          away: "Отошёл",
+        };
+        return statusMap[status] || status;
+      }
+
+      function updateMedia(data) {
+        const mediaContainer = document.querySelector(".media-container");
+        if (data.media_file && data.media_type !== "none") {
+          let mediaHTML = "";
+          if (data.media_type === "image" || data.media_type === "gif") {
+            mediaHTML = `<img src="/uploads/${data.media_file}" class="media-content" alt="Статус">`;
+          } else if (data.media_type === "video") {
+            mediaHTML = `<video src="/uploads/${data.media_file}" class="media-content" autoplay loop muted playsinline>Ваш браузер не поддерживает видео</video>`;
+          }
+          mediaContainer.innerHTML = mediaHTML;
+          mediaContainer.style.display = "block";
+        } else {
+          mediaContainer.style.display = "none";
         }
-        
-        function getStatusText(status) {
-            const statusMap = {
-                'available': 'Доступен',
-                'busy': 'Занят',
-                'meeting': 'На встрече',
-                'away': 'Отошёл'
-            };
-            return statusMap[status] || status;
-        }
-        
-        function updateMedia(data) {
-            const mediaContainer = document.querySelector('.media-container');
-            if (data.media_file && data.media_type !== 'none') {
-                let mediaHTML = '';
-                if (data.media_type === 'image' || data.media_type === 'gif') {
-                    mediaHTML = `<img src="/uploads/${data.media_file}" class="media-content" alt="Статус">`;
-                } else if (data.media_type === 'video') {
-                    mediaHTML = `<video src="/uploads/${data.media_file}" class="media-content" autoplay loop muted playsinline>Ваш браузер не поддерживает видео</video>`;
-                }
-                mediaContainer.innerHTML = mediaHTML;
-                mediaContainer.style.display = 'block';
-            } else {
-                mediaContainer.style.display = 'none';
-            }
-        }
-        
-        // Обновляем каждые 10 секунд
-        setInterval(updateStatus, 10000);
-        
-        // Первое обновление через 2 секунды после загрузки
-        setTimeout(updateStatus, 2000);
+      }
+
+      // Обновляем каждые 10 секунд
+      setInterval(updateStatus, 10000);
+
+      // Первое обновление через 2 секунды после загрузки
+      setTimeout(updateStatus, 2000);
     </script>
-</body>
+  </body>
 </html>
